@@ -9,3 +9,8 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 5. Workflow de manejo de errores(JSON)
 6. Esquema JSON de Integracion
 7. Capturas de Evidencia
+
+## Problemas y Propuesta 
+Situación actual (manual): el productor recibe pedidos de cotización por distintos canales, con texto libre y casi siempre incompletos. Por cada pedido tiene que leerlo, identificar el tipo de seguro, ver qué datos faltan, decidir a quién responder primero y escribir un mail. Los pedidos urgentes (pólizas por vencer, clientes que vienen de otra compañía) se mezclan con consultas generales.
+
+Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención manual, salvo un único punto de control humano antes de contactar al cliente:
