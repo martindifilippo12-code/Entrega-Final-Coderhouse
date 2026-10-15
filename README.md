@@ -5,7 +5,7 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 1. Video Demo (3 min)
 2. Dashboard de control (KPIs)
 3. Base de datos (solo lectura)
-4. Flujo Principal (JSON)
+4. Flujo Principal (JSON) 
 5. Workflow de manejo de errores(JSON)
 6. Esquema JSON de Integracion
 7. Capturas de Evidencia
@@ -101,3 +101,5 @@ Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evi
 | Mensaje de Error | Texto largo | |
 | Execution ID | Texto | Para buscar la ejecución en n8n |
 | Solicitud | Link → Solicitudes | Solicitud afectada (cuando aplica) |
+
+
