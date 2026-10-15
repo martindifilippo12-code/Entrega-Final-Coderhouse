@@ -64,7 +64,7 @@ Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención
 ## 5. Base de datos (el "cerebro")
 Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evitar datos aislados:
 
-## [`Tabla Clientes`](AIRTABLE%20TABLAS/7-%20AIRTABLE%20TABLA%20CLIENTES.png)
+### [`Tabla Clientes`](AIRTABLE%20TABLAS/7-%20AIRTABLE%20TABLA%20CLIENTES.png)
  
 | Campo | Tipo | Nota |
 |---|---|---|
@@ -72,3 +72,21 @@ Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evi
 | Email | Email | Clave del *upsert* (evita duplicados) |
 | Telefono | Teléfono | |
 | Solicitudes | Link → Solicitudes | Historial del cliente |
+
+### [`Tabla Solicitudes`](AIRTABLE%20TABLAS/8-AIRTABLE%20TABLA%20SOLICITUDES.png)
+| Campo | Tipo | Nota |
+|---|---|---|
+| Id | Autonumber (principal) | |
+| Fecha | Created time | |
+| Cliente | Link → Clientes | |
+| Mensaje Original | Texto largo | Texto libre del cliente |
+| Tipo de Seguro | Selección: Auto, Hogar, Comercio, Vida, Otro | Lo define la IA |
+| Datos Extraidos | Texto largo (JSON) | Lo que el cliente informó |
+| Datos Faltantes | Texto largo | Lo que falta para cotizar |
+| Prioridad | Selección: Alta, Media, Baja | |
+| Motivo Prioridad | Texto largo | Explicación de la IA (trazabilidad) |
+| Respuesta Sugerida | Texto largo | Borrador para el cliente |
+| **Estado** | Selección: **Pendiente → Procesado por IA → Aprobado por Humano → Enviado** · Rechazado · Error | Ciclo de vida de la solicitud |
+| Tokens usados | Número | Control de costos |
+| Fecha Aprobacion | Fecha y hora | Momento de la decisión humana |
+| Log Errores | Link → Log Errores | |
