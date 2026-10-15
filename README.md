@@ -64,8 +64,8 @@ Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención
 ## 5. Base de datos (el "cerebro")
 Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evitar datos aislados:
 
-[`Clientes`](AIRTABLE%20TABLAS/7-%20AIRTABLE%20TABLA%20CLIENTES.png)
-### Tabla `Clientes`
+## [`Tabla Clientes`](AIRTABLE%20TABLAS/7-%20AIRTABLE%20TABLA%20CLIENTES.png)
+ 
 | Campo | Tipo | Nota |
 |---|---|---|
 | Nombre | Texto (principal) | |
