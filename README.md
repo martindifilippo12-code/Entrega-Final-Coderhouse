@@ -65,7 +65,6 @@ Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención
 
 Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evitar datos aislados:
 
-
 ### Tabla `Clientes`
 | Campo | Tipo | Nota |
 |---|---|---|
