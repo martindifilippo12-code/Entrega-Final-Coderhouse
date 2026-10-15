@@ -108,14 +108,14 @@ Todos los contratos de datos están en [`docs/schemas/`](schemas):
 
 | Archivo | Integración | Dirección |
 |---|---|---|
-| [`01-entrada-formulario.json`](docs/schemas/01-entrada-formulario.json) | Form Trigger → n8n | Entrada del sistema |
-| [`02-validacion.json`](docs/schemas/02-validacion.json) | Salida del nodo de validación | Interno |
-| [`03-salida-ia.schema.json`](docs/schemas/03-salida-ia.schema.json) | **Contrato del LLM** (JSON Schema) | OpenAI → n8n |
-| [`04-interpretar-ia.json`](docs/schemas/04-interpretar-ia.json) | Respuesta de la IA normalizada | Interno |
-| [`05-airtable-solicitud.json`](docs/schemas/05-airtable-solicitud.json) | Crear / actualizar solicitud en cada estado | n8n → Airtable |
-| [`06-airtable-cliente-upsert.json`](docs/schemas/06-airtable-cliente-upsert.json) | Upsert de cliente | n8n → Airtable |
-| [`07-gmail-aprobacion.json`](docs/schemas/07-gmail-aprobacion.json) | Respuesta de la aprobación humana | Gmail → n8n |
-| [`08-log-error.json`](docs/schemas/08-log-error.json) | Registro de errores | n8n → Airtable |
+| [`01-entrada-formulario.json`](schemas/01-entrada-formulario.json) | Form Trigger → n8n | Entrada del sistema |
+| [`02-validacion.json`](schemas/02-validacion.json) | Salida del nodo de validación | Interno |
+| [`03-salida-ia.schema.json`](schemas/03-salida-ia.schema.json) | **Contrato del LLM** (JSON Schema) | OpenAI → n8n |
+| [`04-interpretar-ia.json`](schemas/04-interpretar-ia.json) | Respuesta de la IA normalizada | Interno |
+| [`05-airtable-solicitud.json`](schemas/05-airtable-solicitud.json) | Crear / actualizar solicitud en cada estado | n8n → Airtable |
+| [`06-airtable-cliente-upsert.json`](schemas/06-airtable-cliente-upsert.json) | Upsert de cliente | n8n → Airtable |
+| [`07-gmail-aprobacion.json`](schemas/07-gmail-aprobacion.json) | Respuesta de la aprobación humana | Gmail → n8n |
+| [`08-log-error.json`](schemas/08-log-error.json) | Registro de errores | n8n → Airtable |
 
 **Contrato de salida del LLM** (resumen):
 
