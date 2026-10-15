@@ -15,9 +15,9 @@ Situación actual (manual): el productor recibe pedidos de cotización por disti
 
 Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención manual, salvo un único punto de control humano antes de contactar al cliente:
 
-.  Registra Cliente y Solicitud en una base de datos con estados. ✔️
-.  La IA interpreta el lenguaje natural y devuelve datos estructurados (JSON). ✔️
-.  Prioriza automaticamente (ALTA/MEDIA/BAJA) con un motivo explicado. ✔️
-.  Redacta la respuesta pidiendo exactamente los datos que faltan. ✔️
-.  Human in the loop: el productor aprueba o rechaza desde su Gmail. ✔️
-.  Todo error queda registrado y la solicitud nunca queda perdida. ✔️
+1.  Registra Cliente y Solicitud en una base de datos con estados. ✔️
+2.  La IA interpreta el lenguaje natural y devuelve datos estructurados (JSON). ✔️
+3.  Prioriza automaticamente (ALTA/MEDIA/BAJA) con un motivo explicado. ✔️
+4.  Redacta la respuesta pidiendo exactamente los datos que faltan. ✔️
+5.  Human in the loop: el productor aprueba o rechaza desde su Gmail. ✔️
+6.  Todo error queda registrado y la solicitud nunca queda perdida. ✔️
