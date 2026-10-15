@@ -1,4 +1,4 @@
-# Entrega-Final-Coderhouse
+# Entrega Final Coderhouse
 Caso de uso: Triage automático de pedidos de cotización para un productor asesor de seguros generales. Un cliente pide una cotización; la IA interpreta el pedido, extrae los datos, detecta lo que falta, asigna una prioridad y redacta la respuesta. El productor aprueba o rechaza con un clic y recién ahí se contacta al cliente.
 
 ## Enlances de Entrega 
@@ -14,3 +14,10 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 Situación actual (manual): el productor recibe pedidos de cotización por distintos canales, con texto libre y casi siempre incompletos. Por cada pedido tiene que leerlo, identificar el tipo de seguro, ver qué datos faltan, decidir a quién responder primero y escribir un mail. Los pedidos urgentes (pólizas por vencer, clientes que vienen de otra compañía) se mezclan con consultas generales.
 
 Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención manual, salvo un único punto de control humano antes de contactar al cliente:
+
+✔️ Registra Cliente y Solicitud en una base de datos con estados.
+✔️ La IA interpreta el lenguaje natural y devuelve datos estructurados (JSON).
+✔️ Prioriza automaticamente (ALTA/MEDIA/BAJA) con un motivo explicado.
+✔️ Redacta la respuesta pidiendo exactamente los datos que faltan.
+✔️ Human in the loop: el productor aprueba o rechaza desde su Gmail.
+✔️ Todo error queda registrado y la solicitud nunca queda perdida.
