@@ -1,0 +1,779 @@
+{
+  "name": "ENTREGA FINAL",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Pedí tu cotización de seguro",
+        "formDescription": "Contanos qué querés asegurar y te respondemos a la brevedad.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nombre",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Telefono"
+            },
+            {
+              "fieldLabel": "Mensaje",
+              "fieldType": "textarea",
+              "placeholder": "Ej: Quiero cotizar mi Fiat Cronos 2021, uso particular, CP 1625, todo riesgo",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76c8e17b-e00f-4cec-bcd0-5cdcb7b8ca0c",
+      "name": "Formulario de cotización",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        64
+      ],
+      "webhookId": "db2fea7c-0c8c-423d-8a79-00882d0914b4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd44a8f3-1ff5-4a56-92be-e937b66d4f86",
+              "name": "baseId",
+              "value": "apph5y8cIzmnmBCQL",
+              "type": "string"
+            },
+            {
+              "id": "4a0fe985-5a47-4074-8d78-b999c0fcd5fe",
+              "name": "tablaClientes",
+              "value": "Clientes",
+              "type": "string"
+            },
+            {
+              "id": "2b164b1d-daea-4e62-9e70-43ad46cf9500",
+              "name": "tablaSolicitudes",
+              "value": "Solicitudes",
+              "type": "string"
+            },
+            {
+              "id": "8533540a-905e-4dd0-8eef-9e21b892f5bd",
+              "name": "tablaErrores",
+              "value": "Log Errores",
+              "type": "string"
+            },
+            {
+              "id": "dd55d16c-90b6-4757-97df-f8e7d51c09fe",
+              "name": "modeloIA",
+              "value": "gpt-4o-mini",
+              "type": "string"
+            },
+            {
+              "id": "8981cfd5-0486-47bf-a6f8-3edf8d079d65",
+              "name": "maxTokens",
+              "value": 600,
+              "type": "number"
+            },
+            {
+              "id": "808d9e62-286d-4ade-b2b0-79af927af7da",
+              "name": "nombreProductor",
+              "value": "Martin Di Filippo",
+              "type": "string"
+            },
+            {
+              "id": "612e47e3-360c-40d6-aadf-67478faff8e1",
+              "name": "=emailProductor",
+              "value": "martindifi@gmail.com",
+              "type": "string"
+            },
+            {
+              "id": "371e6888-cfbf-4c5e-bf1c-357e14013d02",
+              "name": "promptSistema",
+              "value": "Sos el asistente de [PRODUCTOR], productor asesor de seguros en Argentina. Analizás pedidos de cotización escritos por clientes y respondés ÚNICAMENTE con un objeto JSON válido, sin texto extra, con estas claves:\n- tipo_seguro: uno de Auto, Hogar, Comercio, Vida, Otro.\n- datos_extraidos: objeto con los datos que el cliente SÍ dio (por ejemplo marca, modelo, anio, codigo_postal, uso, cobertura, metros_cuadrados, rubro, edad, compania_actual, vencimiento). No inventes datos.\n- datos_faltantes: lista de textos con los datos mínimos que faltan para poder cotizar.\n- prioridad: Alta, Media o Baja.\n- motivo_prioridad: una oración que explique por qué esa prioridad.\n- respuesta_sugerida: el cuerpo de un email para el cliente.\n\nDatos mínimos para cotizar:\n- Auto: marca, modelo, año, código postal, uso (particular o comercial) y cobertura deseada (RC, terceros completo o todo riesgo).\n- Hogar: tipo de vivienda, metros cuadrados, código postal y si quiere cubrir el contenido.\n- Comercio: rubro, metros cuadrados, código postal y actividad principal.\n- Vida: edad, ocupación y suma asegurada buscada.\n\nCriterios de prioridad:\n- Alta: quiere contratar pronto, su póliza actual vence en menos de 30 días, viene de otra compañía o quiere asegurar varios bienes.\n- Media: pedido concreto sin urgencia declarada.\n- Baja: consulta general o pedido muy incompleto.\n\nReglas para respuesta_sugerida: español rioplatense, tono cordial y profesional, máximo 120 palabras, saludar al cliente por su nombre, si faltan datos pedirlos en una lista breve, NO dar precios ni prometer coberturas, firmar como \"El equipo de [PRODUCTOR]\".\nSi el mensaje no es un pedido de seguro, usá tipo_seguro Otro, prioridad Baja y respondé amablemente pidiendo más información.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "305b3594-3aad-489a-9a5a-e7fc3c50b8ef",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        976,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza y valida los datos del formulario\nconst f = $('Formulario de cotización').first().json;\nconst nombre = String(f.Nombre || '').trim();\nconst email = String(f.Email || '').trim().toLowerCase();\nconst telefono = String(f.Telefono || '').trim();\nconst mensaje = String(f.Mensaje || '').trim();\n\nconst errores = [];\nif (!nombre) errores.push('Falta el nombre');\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) errores.push('Email inválido');\nif (mensaje.length < 15) errores.push('Mensaje demasiado corto para cotizar (menos de 15 caracteres)');\n\nreturn [{ json: { valido: errores.length === 0, errores: errores.join('; '), nombre, email, telefono, mensaje } }];"
+      },
+      "id": "f030c221-3b4f-45b2-b59b-6245dc9463e3",
+      "name": "Validar y normalizar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e3548e33-47cc-45e7-a208-79b0d13ebe0a",
+              "leftValue": "={{ $json.valido }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cd39d3d7-4bf1-4b9b-a7bf-cd107cce60eb",
+      "name": "¿Datos válidos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1424,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaErrores) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Workflow': $workflow.name, 'Nodo': 'Validar y normalizar', 'Mensaje de Error': 'Datos inválidos: ' + $json.errores + ' | Email: ' + $json.email + ' | Mensaje: ' + $json.mensaje, 'Execution ID': String($execution.id) } }) }}",
+        "options": {}
+      },
+      "id": "09d9d74c-3b2c-423b-88ba-7ec9a4d56147",
+      "name": "Registrar error de validación",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1632,
+        288
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaClientes) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ performUpsert: { fieldsToMergeOn: ['Email'] }, typecast: true, records: [ { fields: { 'Nombre': $json.nombre, 'Email': $json.email, 'Telefono': $json.telefono } } ] }) }}",
+        "options": {}
+      },
+      "id": "d159c1a7-c868-45ea-953b-8d210de1715c",
+      "name": "Crear o actualizar cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1632,
+        -48
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Cliente': [ $json.records[0].id ], 'Mensaje Original': $('Validar y normalizar').first().json.mensaje, 'Estado': 'Pendiente' } }) }}",
+        "options": {}
+      },
+      "id": "5eed5c9a-05ce-471a-b708-49f3a910ab2f",
+      "name": "Crear solicitud",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1856,
+        -48
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lee la respuesta del modelo (formato Chat Completions o Responses API) y valida el JSON\nconst res = $input.first().json;\n\nlet raw =\n  res.choices?.[0]?.message?.content ??\n  res.output_text ??\n  res.output?.find?.(o => o.type === 'message')?.content?.find?.(c => c.type === 'output_text')?.text ??\n  res.message?.content ??\n  res.content?.[0]?.text ??\n  res.text ??\n  null;\n\nif (raw && typeof raw === 'object') raw = JSON.stringify(raw);\nif (!raw) throw new Error('El modelo no devolvió contenido. Respuesta: ' + JSON.stringify(res).slice(0, 300));\n\n// Si el modelo envolvió el JSON en ```json ... ```, extraemos solo el objeto\nconst match = String(raw).match(/\\{[\\s\\S]*\\}/);\nlet ia;\ntry {\n  ia = JSON.parse(match ? match[0] : raw);\n} catch (e) {\n  throw new Error('La IA no devolvió un JSON válido: ' + String(raw).slice(0, 200));\n}\nif (!ia.respuesta_sugerida) throw new Error('La IA no generó respuesta_sugerida');\n\nconst TIPOS = ['Auto', 'Hogar', 'Comercio', 'Vida', 'Otro'];\nconst PRIORIDADES = ['Alta', 'Media', 'Baja'];\nconst faltantes = Array.isArray(ia.datos_faltantes) ? ia.datos_faltantes : [];\nconst u = res.usage || {};\n\nreturn [{\n  json: {\n    tipo: TIPOS.includes(ia.tipo_seguro) ? ia.tipo_seguro : 'Otro',\n    prioridad: PRIORIDADES.includes(ia.prioridad) ? ia.prioridad : 'Media',\n    motivo: ia.motivo_prioridad || '',\n    datosExtraidos: JSON.stringify(ia.datos_extraidos || {}, null, 2),\n    datosFaltantes: faltantes.length ? faltantes.map(x => '- ' + x).join('\\n') : 'Ninguno',\n    respuesta: ia.respuesta_sugerida,\n    tokens: u.total_tokens ?? ((u.input_tokens || 0) + (u.output_tokens || 0)),\n  },\n}];"
+      },
+      "id": "be598ef1-16e6-4c85-b007-82aa323ec446",
+      "name": "Interpretar respuesta IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        -144
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}/{{ $('Crear solicitud').first().json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Tipo de Seguro': $json.tipo, 'Datos Extraidos': $json.datosExtraidos, 'Datos Faltantes': $json.datosFaltantes, 'Prioridad': $json.prioridad, 'Motivo Prioridad': $json.motivo, 'Respuesta Sugerida': $json.respuesta, 'Estado': 'Procesado por IA', 'Tokens usados': $json.tokens } }) }}",
+        "options": {}
+      },
+      "id": "13ad376d-72f2-4406-90bd-d040f29e2d49",
+      "name": "Guardar análisis IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2512,
+        -144
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "={{ $('Config').first().json.emailProductor }}",
+        "subject": "=[{{ $('Interpretar respuesta IA').first().json.prioridad }}] Aprobar respuesta a {{ $('Validar y normalizar').first().json.nombre }} - {{ $('Interpretar respuesta IA').first().json.tipo }}",
+        "message": "=Nueva solicitud de cotización procesada por IA.\n\nCliente: {{ $('Validar y normalizar').first().json.nombre }} ({{ $('Validar y normalizar').first().json.email }})\nTipo de seguro: {{ $('Interpretar respuesta IA').first().json.tipo }}\nPrioridad: {{ $('Interpretar respuesta IA').first().json.prioridad }} - {{ $('Interpretar respuesta IA').first().json.motivo }}\n\nMENSAJE ORIGINAL:\n{{ $('Validar y normalizar').first().json.mensaje }}\n\nDATOS FALTANTES:\n{{ $('Interpretar respuesta IA').first().json.datosFaltantes }}\n\nRESPUESTA SUGERIDA:\n{{ $('Interpretar respuesta IA').first().json.respuesta }}\n\nSi aprobás, esta respuesta se envía al cliente. Si rechazás, no se envía nada.",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "approveLabel": "Aprobar y enviar",
+            "disapproveLabel": "Rechazar"
+          }
+        },
+        "options": {}
+      },
+      "id": "513aad3c-8043-4b58-8717-cd81d41a6289",
+      "name": "Pedir aprobación (Human-in-the-loop)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2736,
+        -144
+      ],
+      "webhookId": "6f55c830-7e2a-4617-a8aa-bbd5acdd2a52",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DDpaZ7ZJ39S1jDYD",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bea55a26-b80c-4ed2-a1a8-6b46c0ceb695",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4208b6fb-4e7c-4d94-b7f7-02c4deb7b23e",
+      "name": "¿Aprobado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2960,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}/{{ $('Crear solicitud').first().json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Estado': 'Aprobado por Humano', 'Fecha Aprobacion': $now.toISO() } }) }}",
+        "options": {}
+      },
+      "id": "8a607aba-6fb3-4a93-a0a3-a4299bbacfdd",
+      "name": "Marcar aprobado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3184,
+        -240
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Validar y normalizar').first().json.email }}",
+        "subject": "=Tu pedido de cotización - {{ $('Config').first().json.nombreProductor }}",
+        "emailType": "text",
+        "message": "={{ $('Interpretar respuesta IA').first().json.respuesta }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "d1ee8d77-9ce7-4070-95e9-59fc6c9dc5be",
+      "name": "Enviar respuesta al cliente",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3392,
+        -240
+      ],
+      "webhookId": "3bf82d0a-ca68-403f-9410-2c6c910798e6",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DDpaZ7ZJ39S1jDYD",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}/{{ $('Crear solicitud').first().json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Estado': 'Enviado' } }) }}",
+        "options": {}
+      },
+      "id": "c9768203-5b4b-4d0d-8882-d295d4a3add5",
+      "name": "Marcar enviado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3616,
+        -240
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}/{{ $('Crear solicitud').first().json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Estado': 'Rechazado', 'Fecha Aprobacion': $now.toISO() } }) }}",
+        "options": {}
+      },
+      "id": "376f0b5a-b900-4553-8ef5-a8c811a773c7",
+      "name": "Marcar rechazado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3184,
+        -16
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaErrores) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Workflow': $workflow.name, 'Nodo': 'Analizar con IA / Interpretar respuesta', 'Mensaje de Error': (typeof $json.error === 'string' ? $json.error : (($json.error && $json.error.message) || JSON.stringify($json))), 'Execution ID': String($execution.id), 'Solicitud': [ $('Crear solicitud').first().json.id ] } }) }}",
+        "options": {}
+      },
+      "id": "b5a44bcd-aaf2-4ee1-bbfe-836670602317",
+      "name": "Registrar error IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2512,
+        160
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/{{ $('Config').first().json.baseId }}/{{ encodeURIComponent($('Config').first().json.tablaSolicitudes) }}/{{ $('Crear solicitud').first().json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Estado': 'Error' } }) }}",
+        "options": {}
+      },
+      "id": "1f183c11-c181-4722-813d-f5385d63a581",
+      "name": "Marcar solicitud con error",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2736,
+        160
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "images": {
+          "values": [
+            {}
+          ]
+        },
+        "modelId": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.modeloIA }}",
+          "mode": "id"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "={{ $('Config').first().json.promptSistema.replaceAll('[PRODUCTOR]', $('Config').first().json.nombreProductor) }}"
+            },
+            {
+              "content": "=Cliente: {{ $('Validar y normalizar').first().json.nombre }}\nMensaje: {{ $('Validar y normalizar').first().json.mensaje }}"
+            }
+          ]
+        },
+        "simplify": false,
+        "builtInTools": {},
+        "options": {
+          "maxTokens": 600
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2032,
+        -64
+      ],
+      "id": "6c95f5dd-5382-4df0-ba0e-082f82b287c0",
+      "name": "Analizar Con IA",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      },
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Formulario de cotización": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Validar y normalizar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar y normalizar": {
+      "main": [
+        [
+          {
+            "node": "¿Datos válidos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Datos válidos?": {
+      "main": [
+        [
+          {
+            "node": "Crear o actualizar cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registrar error de validación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear o actualizar cliente": {
+      "main": [
+        [
+          {
+            "node": "Crear solicitud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear solicitud": {
+      "main": [
+        [
+          {
+            "node": "Analizar Con IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Interpretar respuesta IA": {
+      "main": [
+        [
+          {
+            "node": "Guardar análisis IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registrar error IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar análisis IA": {
+      "main": [
+        [
+          {
+            "node": "Pedir aprobación (Human-in-the-loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pedir aprobación (Human-in-the-loop)": {
+      "main": [
+        [
+          {
+            "node": "¿Aprobado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Aprobado?": {
+      "main": [
+        [
+          {
+            "node": "Marcar aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Marcar rechazado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar aprobado": {
+      "main": [
+        [
+          {
+            "node": "Enviar respuesta al cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar respuesta al cliente": {
+      "main": [
+        [
+          {
+            "node": "Marcar enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar error IA": {
+      "main": [
+        [
+          {
+            "node": "Marcar solicitud con error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analizar Con IA": {
+      "main": [
+        [
+          {
+            "node": "Interpretar respuesta IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registrar error IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "5e32tXaL2dV41dDj",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "d8bb4ad2-1c8b-4617-92a8-d0e1df27b279",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eb813205778ab3f7031b573e87ebedc6a2a2f6da40c3588cfa026465fd6a5bc3"
+  },
+  "nodeGroups": [],
+  "id": "nOT4OMXCWqKoHdBl",
+  "tags": []
+}

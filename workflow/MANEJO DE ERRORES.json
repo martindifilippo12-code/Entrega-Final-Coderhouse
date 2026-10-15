@@ -1,0 +1,111 @@
+{
+  "name": "MANEJO DE ERRORES",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "7cd7a4e3-6877-43be-84c1-f71ebb7de686",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.airtable.com/v0/{{ $('Config1').first().json.baseId }}/{{ encodeURIComponent($('Config1').first().json.tablaErrores) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ typecast: true, fields: { 'Workflow': $('Error Trigger').first().json.workflow.name, 'Nodo': $('Error Trigger').first().json.execution.lastNodeExecuted || 'Desconocido', 'Mensaje de Error': ($('Error Trigger').first().json.execution.error || { message: 'Sin detalle' }).message, 'Execution ID': String($('Error Trigger').first().json.execution.id) } }) }}",
+        "options": {}
+      },
+      "id": "ff7834bf-239c-4d8d-bdc4-0e60c1753ce9",
+      "name": "Registrar en Log Errores",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        32
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YJ4pB7MiHiZXundb",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "28ad9083-b2aa-4689-9f1c-bee836a20cfe",
+              "name": "baseId",
+              "value": "apph5y8clzmnmBCQL",
+              "type": "string"
+            },
+            {
+              "id": "ab205a47-1979-4c2a-a49e-475170f2a148",
+              "name": "tablaErrores",
+              "value": "Log Errores",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "64389f62-fe55-4c86-879e-d0a3ed6fe3a6",
+      "name": "Config1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        96,
+        32
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config1": {
+      "main": [
+        [
+          {
+            "node": "Registrar en Log Errores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f537fbbb-e2a5-4dd6-a571-d73583381cc7",
+  "meta": {
+    "instanceId": "eb813205778ab3f7031b573e87ebedc6a2a2f6da40c3588cfa026465fd6a5bc3"
+  },
+  "nodeGroups": [],
+  "id": "5e32tXaL2dV41dDj",
+  "tags": []
+}
