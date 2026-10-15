@@ -27,3 +27,14 @@ Propuesta: un sistema que procesa cada pedido de punta a punta sin intervención
  
 ✔️ Todo error queda registrado y la solicitud nunca queda perdida. 
   
+## Stack Tecnologico (4 Categorias obligatorias)
+
+| Categoría | Herramienta | Uso en el sistema |
+| :--- | :--- | :--- |
+| **Orquestador** | n8n Cloud | Flujo principal (18 nodos) + workflow de errores separado |
+| **Base de datos** | Airtable | Memoria y registro: `Clientes`, `Solicitudes`, `Log Errores` (vinculadas) |
+| **Procesamiento IA** | OpenAI `gpt-4o-mini` (nodo nativo de n8n) | Clasificación, extracción de datos, priorización y redacción, con salida JSON estructurada |
+| **Canal de salida** | Gmail | Aprobación humana (*Send and Wait*) y respuesta al cliente |
+
+## Diagrama de Arquitectura
+
