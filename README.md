@@ -90,3 +90,14 @@ Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evi
 | Tokens usados | Número | Control de costos |
 | Fecha Aprobacion | Fecha y hora | Momento de la decisión humana |
 | Log Errores | Link → Log Errores | |
+
+### [`Tabla Log Errores`](AIRTABLE%20TABLAS/9-AIRTABLE%20LOG%20ERRORES.png)
+| Campo | Tipo | Nota |
+|---|---|---|
+| Error ID | Fórmula (principal) | `"ERR-" & DATETIME_FORMAT(SET_TIMEZONE(Fecha,'America/Argentina/Buenos_Aires'),'YYYYMMDD-HHmm') & " · " & Nodo` |
+| Fecha | Created time | |
+| Workflow | Texto | |
+| Nodo | Texto | Nodo que falló |
+| Mensaje de Error | Texto largo | |
+| Execution ID | Texto | Para buscar la ejecución en n8n |
+| Solicitud | Link → Solicitudes | Solicitud afectada (cuando aplica) |
