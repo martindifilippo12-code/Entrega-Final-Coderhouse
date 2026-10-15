@@ -104,7 +104,7 @@ Base de Airtable **Cotizaciones**, con tres tablas vinculadas entre sí para evi
 
 ## 6. Esquemas JSON de las integraciones
 
-Todos los contratos de datos están en [`docs/schemas/`](docs/schemas/):
+Todos los contratos de datos están en [`docs/schemas/`](schemas):
 
 | Archivo | Integración | Dirección |
 |---|---|---|
