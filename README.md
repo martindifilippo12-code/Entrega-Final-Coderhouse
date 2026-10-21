@@ -270,30 +270,34 @@ Además:
 | 4 | ❌ **Camino infeliz: datos inválidos** | Mensaje: *"hola"* | Corta en la validación → `Log Errores`, **sin llamar a la IA** | ✅ Correcto (ejecución #117) |
 | 5 | ❌ **Camino infeliz: respuesta inválida del LLM** | Pedido normal con `max tokens = 5` (simula una respuesta truncada o malformada) | `Interpretar IA` falla → `Log Errores` + `Estado = Error`, sin contactar al cliente | ✅ Correcto |
 
-![Lista de ejecuciones](docs/img/09-ejecuciones-lista.png)
+[Lista de ejecuciones](IMAGENES%20ENTREGA%20FINAL/10-EJECUCIONES.png)
 
-<details>
-<summary>Ver evidencias de cada prueba</summary>
+### Evidencias de cada prueba
 
 **Prueba 1 · Camino feliz**
-![](docs/img/10-prueba1-feliz-n8n.png)
-![](docs/img/12-prueba1-mail-cliente.png)
+
+![Prueba 1 - ejecución](IMAGENES%20ENTREGA%20FINAL/11-EJECUCION%20TOYOTA%20.png)
+![Prueba 1 - mail al cliente](IMAGENES%20ENTREGA%20FINAL/13-MAIL%20ENVIADO%20AL%20CLIENTE.png)
 
 **Prueba 2 · Rechazo humano**
-![](docs/img/13-prueba2-rechazo-n8n.png)
+
+![Prueba 2 - rechazo](IMAGENES%20ENTREGA%20FINAL/14-Prueba%20Rechazo.png)
 
 **Prueba 3 · Consulta general**
-![](docs/img/14-prueba3-consulta-n8n.png)
+
+![Prueba 3 - consulta](IMAGENES%20ENTREGA%20FINAL/15-Prueba%20Horario%20de%20Atencion%20.png)
 
 **Prueba 4 · Datos inválidos**
-![](docs/img/15-prueba4-validacion-n8n.png)
+
+![Prueba 4 - historial de ejecuciones](IMAGENES%20ENTREGA%20FINAL/10-EJECUCIONES.png)
 
 **Prueba 5 · Error de IA**
-![](docs/img/16-prueba5-error-ia-n8n.png)
+
+![Prueba 5 - camino infeliz](IMAGENES%20ENTREGA%20FINAL/CAMINO%20INFELIZ.png)
 
 **Formulario de entrada**
-![](docs/img/17-formulario.png)
-</details>
+
+![Formulario](IMAGENES%20ENTREGA%20FINAL/17-Formulario.png)
 
 **Hallazgo de calidad:** en la prueba 2 la IA escribió "¿Quieres…?" (tuteo) aunque el prompt pide voseo rioplatense. No afecta al funcionamiento, y el Human-in-the-loop permite corregirlo antes del envío. Queda como mejora futura reforzar ese punto en el prompt.
 
