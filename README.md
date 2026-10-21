@@ -5,10 +5,10 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 1. Video Demo (3 min)
 2. Dashboard de control (KPIs)
 3. Base de datos (solo lectura)
-4. Flujo Principal (JSON)
-5. Workflow de manejo de errores(JSON)
-6. Esquema JSON de Integracion
-7. Capturas de Evidencia
+4. Flujo Principal (JSON) [`FLUJO PRINCIPAL`](IMAGENES%20ENTREGA%20FINAL/1-FLUJO%20COMPLETO.png)
+5. Workflow de manejo de errores(JSON) [`MANEJO DE ERRORES`](IMAGENES%20ENTREGA%20FINAL/2-MANEJO%20DE%20ERRORES.png)
+6. Esquema JSON de Integracion [`ESQUEMA JSON`](main/schemas)
+7. Capturas de Evidencia [`ENTREGA FINAL`](IMAGENES%20ENTREGA%20FINAL) [`AIRTABLE`](AIRTABLE%20TABLAS)
 
 ## Problemas y Propuesta 
 Situación actual (manual): el productor recibe pedidos de cotización por distintos canales, con texto libre y casi siempre incompletos. Por cada pedido tiene que leerlo, identificar el tipo de seguro, ver qué datos faltan, decidir a quién responder primero y escribir un mail. Los pedidos urgentes (pólizas por vencer, clientes que vienen de otra compañía) se mezclan con consultas generales.
@@ -349,13 +349,4 @@ Además:
 | `Credentials not found` en la IA | Falta asignar la credencial de OpenAI | Elegir la credencial en el nodo |
 | Ejecución en `Waiting` | Está esperando la aprobación humana | Responder el mail de aprobación |
 | Solicitud en `Error` | Ver `Log Errores` → `Execution ID` | Abrir esa ejecución en n8n → *Executions* |
-
----
-
-## 13. Mejoras futuras
-- Reforzar el voseo en el prompt (hallazgo de la prueba 2).
-- Recibir pedidos también por **WhatsApp** (plantilla aprobada, formato internacional `+54…`) y por mail entrante.
-- Recordatorio automático si una aprobación lleva más de 24 h pendiente.
-- Integración con el cotizador de las compañías para adjuntar precios a la respuesta.
-- Usar la **Batch API** para campañas de renovación masivas.
 
