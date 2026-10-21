@@ -227,7 +227,7 @@ Si el mensaje no es un pedido de seguro, usá tipo_seguro Otro, prioridad Baja y
 - **Aprobar** → `Aprobado por Humano` (+ fecha) → envío → `Enviado`.
 - **Rechazar** → `Rechazado` (+ fecha) → no se envía nada.
 
-![Mail de aprobación](docs/IMAGENES%20ENTREGA%20FINAL/12-MAIL%20APROBACION.png)
+![Mail de aprobación](12-MAIL%20APROBACION.png)
 
 ### 9.2 Manejo de errores (3 capas)
 
