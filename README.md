@@ -276,28 +276,28 @@ Además:
 
 **Prueba 1 · Camino feliz**
 
-![Prueba 1 - ejecución](IMAGENES%20ENTREGA%20FINAL/11-EJECUCION%20TOYOTA%20.png)
-![Prueba 1 - mail al cliente](IMAGENES%20ENTREGA%20FINAL/13-MAIL%20ENVIADO%20AL%20CLIENTE.png)
+[Prueba 1 - ejecución](IMAGENES%20ENTREGA%20FINAL/11-EJECUCION%20TOYOTA%20.png)
+[Prueba 1 - mail al cliente](IMAGENES%20ENTREGA%20FINAL/13-MAIL%20ENVIADO%20AL%20CLIENTE.png)
 
 **Prueba 2 · Rechazo humano**
 
-![Prueba 2 - rechazo](IMAGENES%20ENTREGA%20FINAL/14-Prueba%20Rechazo.png)
+[Prueba 2 - rechazo](IMAGENES%20ENTREGA%20FINAL/14-Prueba%20Rechazo.png)
 
 **Prueba 3 · Consulta general**
 
-![Prueba 3 - consulta](IMAGENES%20ENTREGA%20FINAL/15-Prueba%20Horario%20de%20Atencion%20.png)
+[Prueba 3 - consulta](IMAGENES%20ENTREGA%20FINAL/15-Prueba%20Horario%20de%20Atencion%20.png)
 
 **Prueba 4 · Datos inválidos**
 
-![Prueba 4 - historial de ejecuciones](IMAGENES%20ENTREGA%20FINAL/10-EJECUCIONES.png)
+[Prueba 4 - historial de ejecuciones](IMAGENES%20ENTREGA%20FINAL/10-EJECUCIONES.png)
 
 **Prueba 5 · Error de IA**
 
-![Prueba 5 - camino infeliz](IMAGENES%20ENTREGA%20FINAL/CAMINO%20INFELIZ.png)
+[Prueba 5 - camino infeliz](IMAGENES%20ENTREGA%20FINAL/CAMINO%20INFELIZ.png)
 
 **Formulario de entrada**
 
-![Formulario](IMAGENES%20ENTREGA%20FINAL/17-Formulario.png)
+[Formulario](IMAGENES%20ENTREGA%20FINAL/17-Formulario.png)
 
 **Hallazgo de calidad:** en la prueba 2 la IA escribió "¿Quieres…?" (tuteo) aunque el prompt pide voseo rioplatense. No afecta al funcionamiento, y el Human-in-the-loop permite corregirlo antes del envío. Queda como mejora futura reforzar ese punto en el prompt.
 
