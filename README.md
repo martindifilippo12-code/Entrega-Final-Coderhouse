@@ -7,7 +7,7 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 3. Base de datos (solo lectura)
 4. Flujo Principal (JSON) [`FLUJO PRINCIPAL`](IMAGENES%20ENTREGA%20FINAL/1-FLUJO%20COMPLETO.png)
 5. Workflow de manejo de errores(JSON) [`MANEJO DE ERRORES`](IMAGENES%20ENTREGA%20FINAL/2-MANEJO%20DE%20ERRORES.png)
-6. Esquema JSON de Integracion [`ESQUEMA JSON`](doc/schemas/)
+6. Esquema JSON de Integracion [`ESQUEMA JSON`](schemas/)
 7. Capturas de Evidencia [`ENTREGA FINAL`](IMAGENES%20ENTREGA%20FINAL) [`AIRTABLE`](AIRTABLE%20TABLAS)
 
 ## Problemas y Propuesta 
