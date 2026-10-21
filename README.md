@@ -173,7 +173,7 @@ Si el mensaje no es un pedido de seguro, usá tipo_seguro Otro, prioridad Baja y
 - Salida **solo JSON** + validación en código → si el modelo "se va de tema", el flujo no lo envía.
 - Reglas de negocio en el prompt: **no inventar datos, no dar precios, no prometer coberturas.**
 
-![Configuración del nodo de IA](/IMAGENES%20ENTREGA%20FINAL/5-NODO%20IA%20CONFIG.png)
+![Configuración del nodo de IA](main/IMAGENES%20ENTREGA%20FINAL/5-NODO%20IA%20CONFIG.png)
 
 ### 8.1 Costo real medido
 
