@@ -243,7 +243,7 @@ Además:
 - **Ninguna solicitud se pierde:** siempre queda en un estado final (`Enviado`, `Rechazado` o `Error`).
 
 [Workflow de errores](IMAGENES%20ENTREGA%20FINAL/2-MANEJO%20DE%20ERRORES.png)
-![Error Workflow configurado](IMAGENES%20ENTREGA%20FINAL/3-%20CONFIG%20FLUJO%20PRINCIPAL%20ERROR%20WORKFLOWS.png)
+[Error Workflow configurado](IMAGENES%20ENTREGA%20FINAL/3-%20CONFIG%20FLUJO%20PRINCIPAL%20ERROR%20WORKFLOWS.png)
 
 ### 9.3 Seguridad de credenciales y datos
 - Las API keys (Airtable, OpenAI, Gmail OAuth2) se guardan en el **gestor de credenciales de n8n**. **No aparecen en los JSON exportados, en este repositorio ni en el video.**
