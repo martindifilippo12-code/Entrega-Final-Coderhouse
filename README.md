@@ -256,9 +256,9 @@ Además:
 
 | Pregunta | Respuesta |
 |---|---|
-| ¿El flujo tiene un filtro para evitar bucles infinitos? | ✅ Sí. El trigger es un formulario (un envío = una ejecución). El flujo no escribe nada que lo vuelva a disparar, el IF de validación corta los datos inválidos y el Error Workflow es un workflow aparte que no puede reactivar el principal. |
-| ¿Se comparan tipos de datos correctos en los filtros? | ✅ Sí. `¿Datos válidos?` compara un **booleano** (`valido`) con validación estricta, y `¿Aprobado?` evalúa el booleano `data.approved`. `Tokens usados` se guarda como **número**. |
-| ¿El prompt de IA es dinámico y usa variables del sistema? | ✅ Sí. El prompt sale del nodo `Config` (`promptSistema`, `nombreProductor`) y el mensaje del usuario se arma con `nombre` y `mensaje` del cliente en cada ejecución. |
+| ¿El flujo tiene un filtro para evitar bucles infinitos? |  Sí. El trigger es un formulario (un envío = una ejecución). El flujo no escribe nada que lo vuelva a disparar, el IF de validación corta los datos inválidos y el Error Workflow es un workflow aparte que no puede reactivar el principal. |
+| ¿Se comparan tipos de datos correctos en los filtros? |  Sí. `¿Datos válidos?` compara un **booleano** (`valido`) con validación estricta, y `¿Aprobado?` evalúa el booleano `data.approved`. `Tokens usados` se guarda como **número**. |
+| ¿El prompt de IA es dinámico y usa variables del sistema? |  Sí. El prompt sale del nodo `Config` (`promptSistema`, `nombreProductor`) y el mensaje del usuario se arma con `nombre` y `mensaje` del cliente en cada ejecución. |
 
 ---
 
@@ -266,11 +266,11 @@ Además:
 
 | # | Escenario | Entrada | Resultado esperado | Resultado obtenido |
 |---|---|---|---|---|
-| 1 | ✅ **Camino feliz** | *"Quiero pasarme de compañía. Toyota Corolla 2020, uso particular, CP 1704, todo riesgo. Mi póliza vence la semana que viene."* | Auto · prioridad Alta → aprobado → `Enviado` | ✅ Correcto: mail recibido por el cliente |
-| 2 | 🙅 **Rechazo humano** | *"Hola, quiero asegurar mi departamento en Ramos Mejía. ¿Me pueden pasar una cotización?"* | Hogar · faltan datos → rechazado → `Rechazado`, sin mail al cliente | ✅ Correcto: Hogar · Baja · faltantes: tipo de vivienda, m², contenido |
-| 3 | 💬 **Consulta que no es pedido** | *"Quería saber el horario de atención de la oficina"* | Tipo `Otro` · prioridad Baja | ✅ **[COMPLETAR con lo que dio]** |
-| 4 | ❌ **Camino infeliz: datos inválidos** | Mensaje: *"hola"* | Corta en la validación → `Log Errores`, **sin llamar a la IA** | ✅ Correcto (ejecución #117) |
-| 5 | ❌ **Camino infeliz: respuesta inválida del LLM** | Pedido normal con `max tokens = 5` (simula una respuesta truncada o malformada) | `Interpretar IA` falla → `Log Errores` + `Estado = Error`, sin contactar al cliente | ✅ Correcto |
+| 1 |  **Camino feliz** | *"Quiero pasarme de compañía. Toyota Corolla 2020, uso particular, CP 1704, todo riesgo. Mi póliza vence la semana que viene."* | Auto · prioridad Alta → aprobado → `Enviado` | ✅ Correcto: mail recibido por el cliente |
+| 2 |  **Rechazo humano** | *"Hola, quiero asegurar mi departamento en Ramos Mejía. ¿Me pueden pasar una cotización?"* | Hogar · faltan datos → rechazado → `Rechazado`, sin mail al cliente | ✅ Correcto: Hogar · Baja · faltantes: tipo de vivienda, m², contenido |
+| 3 |  **Consulta que no es pedido** | *"Quería saber el horario de atención de la oficina"* | Tipo `Otro` · prioridad Baja | ✅ [Correcto: tipo Otro · prioridad Baja · aprobado y enviado]|
+| 4 |  **Camino infeliz: datos inválidos** | Mensaje: *"hola"* | Corta en la validación → `Log Errores`, **sin llamar a la IA** | ✅ Correcto (ejecución #117) |
+| 5 |  **Camino infeliz: respuesta inválida del LLM** | Pedido normal con `max tokens = 5` (simula una respuesta truncada o malformada) | `Interpretar IA` falla → `Log Errores` + `Estado = Error`, sin contactar al cliente | ✅ Correcto |
 
 [Lista de ejecuciones](IMAGENES%20ENTREGA%20FINAL/10-EJECUCIONES.png)
 
