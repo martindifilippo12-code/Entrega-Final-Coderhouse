@@ -1,14 +1,17 @@
 # Entrega Final Coderhouse
 Caso de uso: Triage automático de pedidos de cotización para un productor asesor de seguros generales. Un cliente pide una cotización; la IA interpreta el pedido, extrae los datos, detecta lo que falta, asigna una prioridad y redacta la respuesta. El productor aprueba o rechaza con un clic y recién ahí se contacta al cliente.
 
-## Enlances de Entrega 
-1. Video Demo (3 min)
-2. Dashboard de control (KPIs)
-3. Base de datos (solo lectura)
-4. Flujo Principal (JSON) [`FLUJO PRINCIPAL`](IMAGENES%20ENTREGA%20FINAL/1-FLUJO%20COMPLETO.png)
-5. Workflow de manejo de errores(JSON) [`MANEJO DE ERRORES`](IMAGENES%20ENTREGA%20FINAL/2-MANEJO%20DE%20ERRORES.png)
-6. Esquema JSON de Integracion [`ESQUEMA JSON`](schemas/)
-7. Capturas de Evidencia [`ENTREGA FINAL`](IMAGENES%20ENTREGA%20FINAL) [`AIRTABLE`](AIRTABLE%20TABLAS)
+## Enlaces de Entrega
+
+| Recurso | Enlace |
+|---|---|
+| Video demo (3 min) | [COMPLETAR: link del video] |
+| Dashboard de control (KPIs) | [Ver dashboard](https://airtable.com/apph5y8cIzmnmBCQL/shrBboq2vXd70nrAH) |
+| Base de datos (solo lectura) | [COMPLETAR: link de la base] |
+| Flujo principal (JSON) | [workflow/ENTREGA FINAL.json](workflow/ENTREGA%20FINAL.json) |
+| Workflow de manejo de errores (JSON) | [workflow/MANEJO DE ERRORES.json](workflow/MANEJO%20DE%20ERRORES.json) |
+| Esquemas JSON de integración | [schemas/](schemas) |
+| Capturas de evidencia | [IMAGENES ENTREGA FINAL/](IMAGENES%20ENTREGA%20FINAL) · [AIRTABLE TABLAS/](AIRTABLE%20TABLAS) |
 
 ## Problemas y Propuesta 
 Situación actual (manual): el productor recibe pedidos de cotización por distintos canales, con texto libre y casi siempre incompletos. Por cada pedido tiene que leerlo, identificar el tipo de seguro, ver qué datos faltan, decidir a quién responder primero y escribir un mail. Los pedidos urgentes (pólizas por vencer, clientes que vienen de otra compañía) se mezclan con consultas generales.
