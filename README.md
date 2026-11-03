@@ -315,7 +315,7 @@ Además:
 | Prioridad Alta pendiente | Solicitudes `Alta` que todavía no están `Enviado` | Qué atender primero |
 | Tokens consumidos | Suma de `Tokens usados` | Control de costo |
 
-![Dashboard](docs/img/18-dashboard.png)
+![Dashboard](main/dashboard.png)
 
 ---
 
