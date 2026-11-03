@@ -5,7 +5,6 @@ Caso de uso: Triage automático de pedidos de cotización para un productor ases
 
 | Recurso | Enlace |
 |---|---|
-| Video demo (3 min) | [COMPLETAR: link del video] |
 | Dashboard de control (KPIs) | [Ver dashboard](https://airtable.com/apph5y8cIzmnmBCQL/shrBboq2vXd70nrAH) |
 | Base de datos (solo lectura) | [LINK BASE](https://airtable.com/apph5y8cIzmnmBCQL/shrwbobIerFJM5aXX)|
 | Flujo principal (JSON) | [workflow/ENTREGA FINAL.json](workflow/ENTREGA%20FINAL.json) |
