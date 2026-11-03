@@ -305,7 +305,7 @@ Además:
 
 ## 11. Dashboard de control
 
-**🔗 [COMPLETAR: link público del dashboard]**
+**🔗 [Ver dashboard](https://airtable.com/apph5y8cIzmnmBCQL/shrBboq2vXd70nrAH)
 
 | KPI | Cómo se calcula | Para qué sirve |
 |---|---|---|
